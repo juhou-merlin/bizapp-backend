@@ -17,6 +17,8 @@ spring:
 
   # JPA設定
   jpa:
+    # Hibernate によるテーブル作成後に data.sql を実行する
+    defer-datasource-initialization: true
     hibernate:
       # 起動時にエンティティからテーブルを自動生成する
       ddl-auto: update
