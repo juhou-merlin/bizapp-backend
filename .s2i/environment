@@ -1,0 +1,4 @@
+# S2I ビルド時の設定
+# S2Iビルダーイメージが前工程でビルド済みのJARを検出し、再ビルドせずにデプロイする
+ARTIFACT_DIR=target
+JAVA_APP_JAR=bizapp-0.0.1-SNAPSHOT.jar

@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────────────────
+# 業務管理システム バックエンド設定
+# ─────────────────────────────────────────────────────
+# デフォルトプロファイル: 開発環境（H2インメモリDB使用）
+# 本番環境では環境変数またはConfigMapで設定を上書きする
+
+spring:
+  application:
+    name: bizapp
+
+  # データソース設定（開発環境: H2インメモリDB）
+  datasource:
+    url: jdbc:h2:mem:bizapp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  # JPA設定
+  jpa:
+    hibernate:
+      # 起動時にエンティティからテーブルを自動生成する
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # H2コンソール（開発時のみ有効）
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # 初期データ投入（data.sql）
+  sql:
+    init:
+      mode: always
+
+# サーバー設定
+server:
+  port: 8080
+
+# Actuator設定（ヘルスチェック用）
+management:
+  endpoints:
+    web:
+      exposure:
+        # ヘルスチェックとメトリクスを公開（Kubernetes のProbe用）
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

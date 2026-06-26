@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  業務管理システム バックエンド
+  Spring Boot アプリケーションの Maven 設定ファイル
+
+  ビルドコマンド:
+    ./mvnw clean package    （ユニットテスト実行 + JARパッケージング）
+    ./mvnw clean test       （ユニットテストのみ実行）
+
+  v0.1仕様:
+    - JDK: OpenJDK 25（固定）※現時点ではOpenJDK 21で代用
+    - ビルドツール: Maven（mvnw対応）
+    - テスト: mvn clean package でユニットテストとパッケージングを同時実行
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.3</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.example</groupId>
+  <artifactId>bizapp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>bizapp</name>
+  <description>業務管理システム バックエンドAPI</description>
+
+  <properties>
+    <!-- v0.1仕様: OpenJDK 25固定（利用可能になるまでJDK 21で代用） -->
+    <java.version>21</java.version>
+  </properties>
+
+  <dependencies>
+    <!-- Web API用（REST コントローラー、組込みTomcat等） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- JPAデータアクセス用（エンティティ管理、リポジトリ） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- バリデーション用（リクエストボディの入力検証） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- ヘルスチェック・メトリクス用（/actuator/health等） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- 開発時のインメモリDB（本番ではPostgreSQL等に切替） -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- 本番用データベースドライバ -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Lombokによるボイラープレートコード削減 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- テスト用（JUnit 5、MockMvc等） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Spring Boot実行可能JARのパッケージング -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
