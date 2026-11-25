@@ -1,0 +1,39 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: pr-test
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/on-target-branch: "[pac-poc-20261125]"
+spec:
+  pipelineRef:
+    resolver: cluster
+    params:
+    - name: kind
+      value: pipeline
+    - name: name
+      value: pac-pr-test-backend
+    - name: namespace
+      value: cicd-e2e-helm
+  taskRunTemplate:
+    serviceAccountName: pipeline
+  params:
+  - name: repo-url
+    value: "{{ repo_url }}"
+  - name: revision
+    value: "{{ revision }}"
+  workspaces:
+  - name: source
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  - name: maven-cache
+    emptyDir: {}
+  - name: git-auth
+    secret:
+      secretName: "{{ git_auth_secret }}"
