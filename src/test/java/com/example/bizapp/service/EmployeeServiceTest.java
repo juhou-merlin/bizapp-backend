@@ -79,6 +79,7 @@ class EmployeeServiceTest {
         Employee saved = employeeService.save(employee);
         employeeService.delete(saved.getId());
 
-        assertThrows(RuntimeException.class, () -> employeeService.findById(saved.getId()));
+        Long savedId = saved.getId();
+        assertThrows(RuntimeException.class, () -> employeeService.findById(savedId));
     }
 }

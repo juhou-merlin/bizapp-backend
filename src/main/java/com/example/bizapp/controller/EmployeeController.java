@@ -1,6 +1,7 @@
 package com.example.bizapp.controller;
 
 import com.example.bizapp.model.Employee;
+import com.example.bizapp.dto.EmployeeInput;
 import com.example.bizapp.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/employees")
-@CrossOrigin(origins = "*")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -37,15 +37,15 @@ public class EmployeeController {
 
     /** 新規社員を登録する */
     @PostMapping
-    public ResponseEntity<Employee> create(@Valid @RequestBody Employee employee) {
-        Employee saved = employeeService.save(employee);
+    public ResponseEntity<Employee> create(@Valid @RequestBody EmployeeInput employee) {
+        Employee saved = employeeService.save(employee.toEmployee());
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     /** 社員情報を更新する */
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Long id, @Valid @RequestBody Employee employee) {
-        return employeeService.update(id, employee);
+    public Employee update(@PathVariable Long id, @Valid @RequestBody EmployeeInput employee) {
+        return employeeService.update(id, employee.toEmployee());
     }
 
     /** 社員を削除する */

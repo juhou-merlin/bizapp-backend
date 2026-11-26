@@ -1,6 +1,7 @@
 package com.example.bizapp.controller;
 
 import com.example.bizapp.model.Project;
+import com.example.bizapp.dto.ProjectInput;
 import com.example.bizapp.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/projects")
-@CrossOrigin(origins = "*")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -37,8 +37,8 @@ public class ProjectController {
 
     /** 新規プロジェクトを登録する */
     @PostMapping
-    public ResponseEntity<Project> create(@Valid @RequestBody Project project) {
-        Project saved = projectService.save(project);
+    public ResponseEntity<Project> create(@Valid @RequestBody ProjectInput project) {
+        Project saved = projectService.save(project.toProject());
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
