@@ -42,7 +42,7 @@ class ApiBehaviourTest {
         ProjectRepository repository = mock(ProjectRepository.class);
         ProjectService service = new ProjectService(repository);
         ProjectController controller = new ProjectController(service);
-        LocalDate start = LocalDate.of(2026, 1, 1);
+        LocalDate start = LocalDate.of(2026, java.time.Month.JANUARY, 1);
         ProjectInput input = new ProjectInput("P01", "案件", "取引先", "開発", "進行中", start, start.plusDays(1));
         Project project = input.toProject();
         project.setId(1L);
