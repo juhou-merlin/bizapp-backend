@@ -60,7 +60,6 @@ class ApiBehaviourTest {
 
     @Test
     void dashboardCounts() {
-        org.junit.jupiter.api.Assertions.fail("PRテストの失敗確認");
         EmployeeRepository employees = mock(EmployeeRepository.class);
         ProjectRepository projects = mock(ProjectRepository.class);
         when(employees.count()).thenReturn(2L);
