@@ -91,6 +91,16 @@
 
   <build>
     <plugins>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.14</version>
+            <executions>
+                <execution><goals><goal>prepare-agent</goal></goals></execution>
+                <execution><id>coverage-report</id><phase>verify</phase><goals><goal>report</goal></goals></execution>
+            </executions>
+        </plugin>
+
       <!-- Spring Boot実行可能JARのパッケージング -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
