@@ -13,18 +13,27 @@ spec:
     - name: kind
       value: pipeline
     - name: name
-      value: pac-pr-test-backend
+      value: backend-pipeline
     - name: namespace
-      value: cicd-e2e-helm
+      value: helm-env-dev-20261124
   taskRunTemplate:
-    serviceAccountName: pipeline
+    serviceAccountName: pac-pr-ci
+    podTemplate:
+      securityContext:
+        runAsUser: 65532
+        runAsNonRoot: true
+        fsGroup: 65532
   params:
-  - name: repo-url
+  - name: git-url
     value: "{{ repo_url }}"
-  - name: revision
+  - name: git-revision
     value: "{{ revision }}"
+  - name: git-ref
+    value: refs/pull/{{ pull_request_number }}/head
+  - name: update-manifest-enabled
+    value: 'false'
   workspaces:
-  - name: source
+  - name: shared-workspace
     volumeClaimTemplate:
       spec:
         accessModes:
@@ -34,6 +43,3 @@ spec:
             storage: 1Gi
   - name: maven-cache
     emptyDir: {}
-  - name: git-auth
-    secret:
-      secretName: "{{ git_auth_secret }}"
